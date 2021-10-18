@@ -25,6 +25,6 @@ app.use('/api/excercise', require('./routes/excercise'))
 // app.use('/api/workout', require('./routes/workout'))
 
 // Escuchar peticiones
-app.listen(4000, () => {
-  console.log(`Servidor corriendo en puerto 4000`)
+app.listen(process.env.PORT, () => {
+  console.log(`Servidor corriendo en puerto ${process.env.PORT}`)
 })

@@ -13,7 +13,7 @@ const validarJWT = (req, res = response, next) => {
   }
 
   try {
-    const { uid, name } = jwt.verify(token, 'palabrasecreta')
+    const { uid, name } = jwt.verify(token, process.env.SECRET_JWT_SEED)
     // console.log(is_profesor)
     req.uid = uid
     req.name = name
