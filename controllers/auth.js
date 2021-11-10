@@ -2,14 +2,19 @@ const { response } = require('express')
 const bcrypt = require('bcryptjs')
 const Usuario = require('../models/Usuario')
 const { generarJWT } = require('../helpers/jwt')
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
+// const Excercise = require('../models/Excercise')
 
 const crearUsuario = async (req, res = response) => {
-  const { name, lastname, dni, email, password, username } = req.body
+  const { name, lastname, dni, email, password, username, is_professor } =
+    req.body
 
-  console.log('los trim son')
-  console.log(name.trim() == '')
-  console.log(lastname.trim() == '')
+  if (is_professor == undefined) {
+    return res.status(400).json({
+      ok: false,
+      msg: 'Debes elegir un rol para registrarte',
+    })
+  }
 
   if (name.trim() == '' || lastname.trim() == '') {
     return res.status(400).json({
@@ -33,7 +38,7 @@ const crearUsuario = async (req, res = response) => {
     if (usuario) {
       return res.status(400).json({
         ok: false,
-        msg: 'El usuario ya existe',
+        msg: 'Ya existe un usuario con ese email',
       })
     }
 
@@ -45,7 +50,6 @@ const crearUsuario = async (req, res = response) => {
         msg: 'Ya existe un usuario con el mismo DNI',
       })
     }
-    console.log(req.body)
     usuario = new Usuario(req.body)
 
     // Encriptar contraseña
@@ -56,7 +60,6 @@ const crearUsuario = async (req, res = response) => {
 
     // Generar JWT
     const token = await generarJWT(usuario.id, usuario.name)
-
     res.status(201).json({
       ok: true,
       uid: usuario.id,
@@ -65,7 +68,6 @@ const crearUsuario = async (req, res = response) => {
       token,
     })
   } catch (error) {
-    console.log(error)
     res.status(500).json({
       ok: false,
       msg: 'Por favor hable con el administrador',
@@ -122,7 +124,6 @@ const revalidarToken = async (req, res = response) => {
   const token = await generarJWT(uid, name)
   try {
     let usuario = await Usuario.findById(uid).exec()
-    console.log(usuario)
     res.json({
       ok: true,
       uid: uid,

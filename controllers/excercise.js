@@ -18,11 +18,7 @@ const crearExcercise = async (req, res = response) => {
       professor_id: professor_id,
       nameE: nameE,
     })
-    // console.log(exs)
-    // let existe = false
-    // exs.forEach((element) => {
-    //   element.name == name ? (existe = true) : null
-    // })
+
     if (exs) {
       return res.status(400).json({
         ok: false,
@@ -129,5 +125,4 @@ module.exports = {
   getExcercises,
   crearExcercise,
   // actualizarEvento,
-  // eliminarEvento,
 }

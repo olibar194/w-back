@@ -1,6 +1,6 @@
 /*
     Event Routes
-    /api/events
+    /api/info
 */
 const { Router } = require('express')
 const { check } = require('express-validator')
@@ -9,34 +9,40 @@ const { isDate } = require('../helpers/isDate')
 const { validarCampos } = require('../middlewares/validar-campos')
 const { validarJWT } = require('../middlewares/validar-jwt')
 const {
-  getExcercises,
-  crearExcercise,
+  getInfo,
+  getGeneral,
+  // crearExcercise,
   // actualizarEvento,
   // eliminarEvento,
-} = require('../controllers/excercise')
+} = require('../controllers/info')
 
 const router = Router()
 
 // Todas tienes que pasar por la validación del JWT
 router.use(validarJWT)
 
-// Obtener eventos
-router.get('/', getExcercises)
+//  Obtener general
+
+router.get('/p', getGeneral)
+// Obtener info profe
+router.get('/p/:uid', getInfo)
+
+// hacer lo mismo para alumno
 
 // Crear un nuevo evento
-router.post(
-  '/',
-  [
-    check('nameE', 'El titulo es obligatorio').not().isEmpty(),
-    check('description', 'La descripción es obligatoria').not().isEmpty(),
-    check('difficulty', 'La dificultad es obligatoria').not().isEmpty(),
-    check('type_reps', 'El tipo de repetición es obligatorio').not().isEmpty(),
-    validarCampos,
-  ],
-  crearExcercise
-)
+// router.post(
+//   '/',
+//   [
+//     check('nameE', 'El titulo es obligatorio').not().isEmpty(),
+//     check('description', 'La descripción es obligatoria').not().isEmpty(),
+//     check('difficulty', 'La dificultad es obligatoria').not().isEmpty(),
+//     check('type_reps', 'El tipo de repetición es obligatorio').not().isEmpty(),
+//     validarCampos,
+//   ],
+//   crearExcercise
+// )
 
-// Actualizar Evento
+// Get Info
 // router.put(
 //   '/:id',
 //   [
