@@ -33,6 +33,7 @@ app.use('/api/events', require('./routes/events'))
 app.use('/api/excercise', require('./routes/excercise'))
 app.use('/api/info', require('./routes/info'))
 app.use('/api/alumno', require('./routes/info'))
+app.use('/api/account', require('./routes/account'))
 
 // app.use('/api/workout', require('./routes/workout'))
 
